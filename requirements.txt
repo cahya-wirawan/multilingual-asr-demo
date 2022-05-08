@@ -1,0 +1,8 @@
+torch
+tokenizers
+transformers
+datasets
+gradio==2.4.1
+soundfile
+sox==1.4.1
+sentencepiece
