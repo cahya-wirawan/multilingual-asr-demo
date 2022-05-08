@@ -18,6 +18,8 @@ api_token = os.getenv("API_TOKEN")
 model_name = "indonesian-nlp/wav2vec2-indonesian-javanese-sundanese"
 processor = Wav2Vec2Processor.from_pretrained(model_name, use_auth_token=api_token)
 model = Wav2Vec2ForCTC.from_pretrained(model_name, use_auth_token=api_token)
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model = model.to(device)
 
 
 def parse_transcription(wav_file):
@@ -25,6 +27,7 @@ def parse_transcription(wav_file):
     convert(wav_file.name, filename + "16k.wav")
     speech, _ = sf.read(filename + "16k.wav")
     input_values = processor(speech, sampling_rate=16_000, return_tensors="pt").input_values
+    input_values = input_values.to(device)
     logits = model(input_values).logits
     predicted_ids = torch.argmax(logits, dim=-1)
     transcription = processor.decode(predicted_ids[0], skip_special_tokens=True)
