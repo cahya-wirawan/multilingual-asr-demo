@@ -2,7 +2,7 @@ torch
 tokenizers
 transformers
 datasets
-gradio==2.4.1
+gradio>=3.0.0
 soundfile
-sox==1.4.1
 sentencepiece
+librosa
